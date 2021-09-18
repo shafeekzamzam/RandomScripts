@@ -1,3 +1,8 @@
+#installation Methods
+#1.Download, Extract and Install
+#2.Package Managers
+#3.Docker
+
 #Assuming Ubuntu OS
 
 #Install PreRequisites
@@ -6,15 +11,14 @@ sudo apt-get install openjdk-11-jre-headless
 java -version
 
 #Installing Elasticsearch
-https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.14.1-linux-x86_64.tar.gz
+wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.14.1-linux-x86_64.tar.gz
 #update the download URL as required
-sudo apt-get update
-sudo apt-get install elasticsearch
-sudo service elasticsearch start
+tar -xzf elasticsearch*
+.bin/elasticsearch
 curl localhost:9200
 
 #Installing and setting up Logstash
-https://artifacts.elastic.co/downloads/logstash/logstash-7.14.1-linux-x86_64.tar.gz
+wget https://artifacts.elastic.co/downloads/logstash/logstash-7.14.1-linux-x86_64.tar.gz
 #update the download URL as required
 sudo apt-get update
 sudo apt-get install logstash
@@ -38,16 +42,21 @@ sudo echo 'input {
     }
     }'>> /etc/logstash/conf.d/logstash-syslog.conf
     
-sudo service logstash restart
+./bin/logstash -f logstash.conf    
+
     
     
 #Installing and configuring kibana
-https://artifacts.elastic.co/downloads/kibana/kibana-7.14.1-linux-x86_64.tar.gz
+wget https://artifacts.elastic.co/downloads/kibana/kibana-7.14.1-linux-x86_64.tar.gz
 #update the download URL as required
 tar -xzf kibana
 sudo mkdir -p /opt/kibana
 sudo mv kibana* /opt/kibana
     
+bin/kibana 
+#Open config/kibana.yml in an editor
+ #Set elasticsearch.hosts to point at your Elasticsearch instance
+
 cd /etc/init.d && sudo wget https://raw.githubusercontent.com/akabdog/scripts/master/kibana4_init -O kibana4
 sudo chmod +x /etc/init.d/kibana4
 sudo update-rc.d kibana4 defaults 96 9
